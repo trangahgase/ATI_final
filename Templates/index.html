@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Forecast</title>
+     <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #d3d3d3;
+        }
+        header {
+            background: #ffffff;
+            color: #d56767;
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav img {
+            height: 50px;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+        main {
+            padding: 50px;
+            max-width: 1000px;
+            margin: auto;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #7ab4da;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #264e63;
+        }
+        ul {
+            padding: 0;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+        .image-container {
+            text-align: center; /* Căn giữa nội dung bên trong */
+            margin-top: 20px; /* Khoảng cách phía trên hình ảnh */
+        }
+        img {
+            max-width: 100%; /* Đảm bảo hình ảnh không vượt quá chiều rộng của container */
+            height: auto; /* Giữ tỉ lệ của hình ảnh */
+        }
+    </style>
+</head>
+<body>
+ <header>
+        <nav>
+            <img src="static/fit-logo1.png" alt="Logo"> <!-- Thay thế 'logo.png' bằng đường dẫn đến logo của bạn -->
+        </nav>
+    </header>
+   <main>
+    <h1>Sales Forecast</h1>
+    <h2>Upload CSV for Predictions</h2>
+    <form method="POST" action="/" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".csv" required>
+        <button type="submit">Predict from CSV</button>
+    </form>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    {% if mse is not none %}
+        <h3>Prediction Sales:</h3>
+        <img src="{{ url_for('plot') }}" alt="Sales Forecast">
+    {% endif %}
+       </main>
+</body>
+</html>
